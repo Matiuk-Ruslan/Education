@@ -9,3 +9,7 @@
 ## Установка PostgreSQL
 
 * В папке `/Docker/Solutions/postgresql` сервиса запускаем команду `docker-compose up --build`
+
+## Установка WikiJS
+
+* В папке `/Docker/Solutions/wikijs` сервиса запускаем команду `docker-compose up --build`
