@@ -1,0 +1,22 @@
+# Description
+
+* Creatio
+  * Snippets
+    * event_listener
+    * separating_email_and_full_name
+    * web_services_with_anonymous_authentication
+    * web_services_with_cookie_authentication
+* CSharp
+  * Snippets
+    * clear_phone_number
+    * generating_password
+    * separating_email_and_full_name
+* SQL
+  * Snippets
+    * search_trigger_by_name
+* Tools
+  * Docker
+    * Solutions
+      * postgresql
+      * rabbitmq
+      * wikijs
