@@ -2,10 +2,13 @@
 
 * Creatio
   * Snippets
-    * event_listener
-    * separating_email_and_full_name
-    * web_services_with_anonymous_authentication
-    * web_services_with_cookie_authentication
+    * CSharp
+      * event_listener
+      * separating_email_and_full_name
+      * web_services_with_anonymous_authentication
+      * web_services_with_cookie_authentication
+    * JavaScript
+      * classic_ui_delete_or_add_a_tab_on_edit_page
 * CSharp
   * Snippets
     * clear_phone_number
