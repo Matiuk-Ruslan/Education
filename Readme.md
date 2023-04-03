@@ -20,6 +20,7 @@
     * http_client_post_request_form_data
     * http_client_post_request_json
     * http_client_retry_pattern
+    * http_web_request_post_json
 * SQL
   * Snippets
     * search_trigger_by_name
