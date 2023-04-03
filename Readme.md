@@ -9,6 +9,7 @@
       * web_services_with_cookie_authentication
     * JavaScript
       * classic_ui_delete_or_add_a_tab_on_edit_page
+      * classic_ui_delete_or_add_a_detail_on_edit_page_via_virtual_field
 * CSharp
   * Snippets
     * clear_phone_number
@@ -25,4 +26,4 @@
     * Solutions
       * postgresql
       * rabbitmq
-      * wikijs
+      * wikij
