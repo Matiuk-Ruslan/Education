@@ -11,6 +11,9 @@
     * clear_phone_number
     * generating_password
     * separating_email_and_full_name
+    * http_client_post_request_form_data
+    * http_client_post_request_json
+    * http_client_retry_pattern
 * SQL
   * Snippets
     * search_trigger_by_name
