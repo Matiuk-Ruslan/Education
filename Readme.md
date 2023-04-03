@@ -12,6 +12,7 @@
       * classic_ui_delete_or_add_a_tab_on_edit_page
       * classic_ui_delete_or_add_a_detail_on_edit_page_via_virtual_field
       * classic_ui_read_esq_data_from_a_detail_on_edit page
+      * classic_ui_detail_without_buttons_add_copy_edit_delete
 * CSharp
   * Snippets
     * clear_phone_number
