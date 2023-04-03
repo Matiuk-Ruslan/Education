@@ -13,6 +13,8 @@
       * classic_ui_delete_or_add_a_detail_on_edit_page_via_virtual_field
       * classic_ui_read_esq_data_from_a_detail_on_edit page
       * classic_ui_detail_without_buttons_add_copy_edit_delete
+      * classic_ui_exec_bp_on_section_with_an_action_multiple_records
+      * classic_ui_update_data_on_section_with_an_action_multiple_records
 * CSharp
   * Snippets
     * clear_phone_number
