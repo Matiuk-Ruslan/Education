@@ -15,6 +15,7 @@
       * classic_ui_detail_without_buttons_add_copy_edit_delete
       * classic_ui_exec_bp_on_section_with_an_action_multiple_records
       * classic_ui_update_data_on_section_with_an_action_multiple_records
+      * classic_ui_visibling_an_action_and_exec_bp_depending_on_count_of_selected_records
 * CSharp
   * Snippets
     * clear_phone_number
