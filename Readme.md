@@ -19,6 +19,8 @@
       * [install_package](./Creatio/Snippets/PowerShell/install_package.ps1)
   * Knowledge
     * [clio](./Creatio/Knowledge/clio.md)
+    * [gitlab-ci](./Creatio/Knowledge/gitlab-ci.yml)
+    * [resources](./Creatio/Knowledge/resources.md)
 * CSharp
   * Snippets
     * [separating_email_and_full_name](./CSharp/Snippets/separating_email_and_full_name.cs)
