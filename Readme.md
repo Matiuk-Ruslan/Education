@@ -3,45 +3,37 @@
 * Creatio
   * Snippets
     * CSharp
-      * event_listener
-      * separating_email_and_full_name
-      * web_services_with_anonymous_authentication
-      * web_services_with_cookie_authentication
-      * esq_edit_existing_phone_numbers
+      * [event_listener](./Creatio/Snippets/CSharp/event_listener.cs)
+      * [web_services_with_anonymous_authentication](./Creatio/Snippets/CSharp/web_services_with_anonymous_authentication.cs)
+      * [web_services_with_cookie_authentication](./Creatio/Snippets/CSharp/web_services_with_cookie_authentication.cs)
+      * [esq_edit_existing_phone_numbers](./Creatio/Snippets/CSharp/esq_edit_existing_phone_numbers.cs)
     * JavaScript
-      * classic_ui_delete_or_add_a_tab_on_edit_page
-      * classic_ui_delete_or_add_a_detail_on_edit_page_via_virtual_field
-      * classic_ui_read_esq_data_from_a_detail_on_edit page
-      * classic_ui_detail_without_buttons_add_copy_edit_delete
-      * classic_ui_exec_bp_on_section_with_an_action_multiple_records
-      * classic_ui_update_data_on_section_with_an_action_multiple_records
-      * classic_ui_visibling_an_action_and_exec_bp_depending_on_count_of_selected_records
+      * [classic_ui_delete_or_add_a_tab_on_edit_page](./Creatio/Snippets/JavaScript/classic_ui_delete_or_add_a_tab_on_edit_page.js)
+      * [classic_ui_delete_or_add_a_detail_on_edit_page_via_virtual_field](./Creatio/Snippets/JavaScript/classic_ui_delete_or_add_a_detail_on_edit_page_via_virtual_field.js)
+      * [classic_ui_read_esq_data_from_a_detail_on_edit_page](./Creatio/Snippets/JavaScript/classic_ui_read_esq_data_from_a_detail_on_edit_page.js)
+      * [classic_ui_detail_without_buttons_add_copy_edit_delete](./Creatio/Snippets/JavaScript/classic_ui_detail_without_buttons_add_copy_edit_delete.js)
+      * [classic_ui_exec_bp_on_section_with_an_action_multiple_records](./Creatio/Snippets/JavaScript/classic_ui_exec_bp_on_section_with_an_action_multiple_records.js)
+      * [classic_ui_update_data_on_section_with_an_action_multiple_records](./Creatio/Snippets/JavaScript/classic_ui_update_data_on_section_with_an_action_multiple_records.js)
+      * [classic_ui_visibling_an_action_and_exec_bp_depending_on_count_of_selected_records](./Creatio/Snippets/JavaScript/classic_ui_visibling_an_action_and_exec_bp_depending_on_count_of_selected_records.js)
+    * PowerShell
+      * [install_package](./Creatio/Snippets/PowerShell/install_package.ps1)
+  * Knowledge
+    * [clio](./Creatio/Knowledge/clio.md)
 * CSharp
   * Snippets
-    * clear_phone_number
-    * generating_password
-    * separating_email_and_full_name
-    * http_client_post_request_form_data
-    * http_client_post_request_json
-    * http_client_retry_pattern
-    * http_web_request_post_json
+    * [separating_email_and_full_name](./CSharp/Snippets/separating_email_and_full_name.cs)
+    * [clear_phone_number](./CSharp/Snippets/clear_phone_number.cs)
+    * [generating_password](./CSharp/Snippets/generating_password.cs)
+    * [http_client_post_request_form_data](./CSharp/Snippets/http_client_post_request_form_data.cs)
+    * [http_client_post_request_json](./CSharp/Snippets/http_client_post_request_json.cs)
+    * [http_client_retry_pattern](./CSharp/Snippets/http_client_retry_pattern.cs)
+    * [http_web_request_post_json](./CSharp/Snippets/http_web_request_post_json.cs)
 * SQL
   * Snippets
-    * search_trigger_by_name
+    * [search_trigger_by_name](./SQL/Snippets/search_trigger_by_name.sql)
 * Tools
   * Docker
     * Solutions
-      * postgresql
-      * rabbitmq
-      * wikij
-
-## Wishlist
-
-* Пример реализации механизма WebSocket (Передача сообщения с backend-a на frontend)
-* Пример реализации механизма Sandbox (Передача сообщения с детали на деталь)
-* Пример реализации детали с дополнительной кнопкой (Кнопка: обновление реестра детали)
-* Пример реализации детали с дополнительным полем (Поле: дата последнего обновления данных)
-* Пример реализации кнопки (Запуск бизнес-процесса)
-* Пример реализации кнопки (Запуск бизнес-процесса с параметром)
-* Пример реализации кнопки (Запуск бизнес-процесса с параметрами нескольких строк реестра)
-* Пример реализации кнопки (Вызов веб-сервиса)
+      * [postgresql](./Tools/Docker/Solutions/postgresql/docker-compose.yaml)
+      * [rabbitmq](./Tools/Docker/Solutions/rabbitmq/docker-compose.yaml)
+      * [wikij](./Tools/Docker/Solutions/wikijs/docker-compose.yaml)
