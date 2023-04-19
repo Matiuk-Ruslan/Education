@@ -15,12 +15,18 @@
       * [classic_ui_exec_bp_on_section_with_an_action_multiple_records](./Creatio/Snippets/JavaScript/classic_ui_exec_bp_on_section_with_an_action_multiple_records.js)
       * [classic_ui_update_data_on_section_with_an_action_multiple_records](./Creatio/Snippets/JavaScript/classic_ui_update_data_on_section_with_an_action_multiple_records.js)
       * [classic_ui_visibling_an_action_and_exec_bp_depending_on_count_of_selected_records](./Creatio/Snippets/JavaScript/classic_ui_visibling_an_action_and_exec_bp_depending_on_count_of_selected_records.js)
+    * SQL
+      * [package](./Creatio/Snippets/SQL/package.sql)
+      * [business_process](./Creatio/Snippets/SQL/business_process.sql)
+      * [cti_panel](./Creatio/Snippets/SQL/cti_panel.sql)
+      * [email](./Creatio/Snippets/SQL/email.sql)
     * PowerShell
       * [install_package](./Creatio/Snippets/PowerShell/install_package.ps1)
   * Knowledge
     * [clio](./Creatio/Knowledge/clio.md)
     * [gitlab-ci](./Creatio/Knowledge/gitlab-ci.yml)
     * [resources](./Creatio/Knowledge/resources.md)
+    * [.gitignore](./Creatio/Knowledge/.)
 * CSharp
   * Snippets
     * [separating_email_and_full_name](./CSharp/Snippets/separating_email_and_full_name.cs)
@@ -33,6 +39,8 @@
 * SQL
   * Snippets
     * [search_trigger_by_name](./SQL/Snippets/search_trigger_by_name.sql)
+    * [view_sizes_of_tables_in_database](./SQL/Snippets/view_sizes_of_tables_in_database.sql)
+    * [view_stored_procedure_code](./SQL/Snippets/view_stored_procedure_code.sql)
 * Tools
   * Docker
     * Solutions
