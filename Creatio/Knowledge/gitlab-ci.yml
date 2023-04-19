@@ -1,0 +1,222 @@
+stages:
+  - pre deploy
+  - Simple Build
+  - BSN
+variables:
+  GIT_DEPTH: 0
+  GIT_SUBMODULE_STRATEGY: none
+
+.test_script: &test_script
+  - |
+    $solutions = Get-ChildItem -Path Pkg -Filter *.Tests.sln -Recurse | ForEach-Object { $_.FullName };
+    foreach ($solution in $solutions) {
+      $project = (Get-Item $solution).BaseName
+      dotnet test $solution --configuration $BUILD_CONFIGURATION `
+      /p:CollectCoverage=true /p:CoverletOutputFormat=opencover `
+      /p:CoverletOutput="TestResults\coverage.opencover.xml";
+    }
+
+.build_script: &build_script
+  - cd Pkg
+  - cd SalesLoft
+  - dotnet build /t:Clean SalesLoft.sln
+  - dotnet build /t:Rebuild --configuration $BUILD_CONFIGURATION --no-incremental --framework net472 SalesLoft.sln
+  - dotnet build-server shutdown
+  - cd..
+  - clio compress SalesLoft -d SalesLoft.gz
+  - clio compress SalesLoft.OAuth -d SalesLoft.OAuth.gz
+  - clio compress DlbNotifier -d DlbNotifier.gz
+  - Compress-Archive -Path *.gz -DestinationPath SalesLoft.zip
+  - clio install SalesLoft.zip -u $URL -l $LOGIN -p $PWD
+  - clio restart -u $URL -l $LOGIN -p $PWD
+  - clio ping -u $URL -l $LOGIN -p $PWD
+  - clio flushdb -u $URL -l $LOGIN -p $PWD
+
+.bsn_script: &bsn_script
+  - $rootPath = Get-Location;
+  - $sdkVersion = '7.18.3.1241';
+  - $BUILD_CONFIGURATION = 'Release';
+  - $pkgPath = New-Item -Path $rootPath -Name "BSN-PACKAGES" -ItemType Directory -Force;
+  - dotnet build /t:Rebuild -c $BUILD_CONFIGURATION --no-incremental --framework net472 .\Pkg\SalesLoft\SalesLoft.sln /p:SdkVer=$sdkVersion;
+  - clio compress .\Pkg\SalesLoft -d $pkgPath\SalesLoft.gz
+  - clio compress .\Pkg\SalesLoft.OAuth -d $pkgPath\SalesLoft.OAuth.gz
+  - clio compress .\Pkg\DlbNotifier -d $pkgPath\DlbNotifier.gz
+  - Compress-Archive -Path $pkgPath\*.gz -DestinationPath  $pkgPath\SalesLoft.zip;
+  - clio install $pkgPath\SalesLoft.zip SalesLoft.zip -u $BSN_DEV_URL -l $BSN_DEV_LOGIN -p $BSN_DEV_PWD;
+
+deploy Staging:
+  stage: Simple Build
+  tags:
+    - windows
+  needs: ["code analysis"]
+  dependencies: []
+  only:
+    - merge_requests
+    - /^feature\/.*/
+  variables:
+    GIT_STRATEGY: clone
+    GIT_SUBMODULE_STRATEGY: normal
+    BUILD_CONFIGURATION: "Release"
+    URL: $STAGING_URL
+    LOGIN: $STAGING_LOGIN
+    PWD: $STAGING_PWD
+
+  before_script:
+    - dotnet build-server shutdown
+  script:
+    - *build_script
+  after_script:
+    - dotnet build-server shutdown
+
+deploy Production:
+  stage: Simple Build
+  tags:
+    - windows
+  needs: ["code analysis"]
+  dependencies: []
+  only:
+    - master
+  variables:
+    GIT_STRATEGY: clone
+    GIT_SUBMODULE_STRATEGY: normal
+    BUILD_CONFIGURATION: "Release"
+    URL: $PRODUCTION_URL
+    LOGIN: $PRODUCTION_LOGIN
+    PWD: $PRODUCTION_PWD
+  before_script:
+  script:
+    - *build_script
+
+deploy BSN:
+  stage: BSN
+  tags:
+    - windows
+  needs: ["deploy Production"]
+  dependencies: []
+  only:
+    - BSN
+  variables:
+    GIT_STRATEGY: clone
+    GIT_SUBMODULE_STRATEGY: normal
+    BUILD_CONFIGURATION: "Release"
+    URL: $BSN_DEV_URL
+    LOGIN: $BSN_DEV_LOGIN
+    PWD: $BSN_DEV_PWD
+  before_script:
+  script:
+    - *bsn_script
+
+code analysis:
+  stage: pre deploy
+  tags:
+    - windows
+  dependencies: []
+  only:
+    - master
+    - develop
+    - merge_requests
+    - /^release\/.*/
+    - /^hotfix\/.*/
+    - /^feature\/.*/
+  except:
+    variables:
+      - $CI_PIPELINE_SOURCE == "schedule"
+  variables:
+    GIT_STRATEGY: clone
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    BUILD_CONFIGURATION: "Debug"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  before_script:
+    - dotnet build-server shutdown
+  script:
+    - $GitVersion_FullSemVer = "1.0.0"
+    - dotnet sonarscanner begin `
+        /k:$CI_PROJECT_NAME `
+        /d:sonar.host.url=$SONAR_HOST_URL `
+        /d:sonar.login=$SONAR_TOKEN `
+        /d:sonar.cs.opencover.reportsPaths="**\TestResults\coverage.opencover*.xml" `
+        /d:sonar.sourceEncoding=UTF-8 `
+        /d:sonar.exclusions=**/Builder.cs,**/Dto/*,**/_site/**/*.*,**/Documentation/*,**/EmailCannotBeEmptyPolicy.cs,**/PrimaryEmailIsUniqiePolicy.cs`
+        /d:sonar.qualitygate.wait=true `
+        /d:sonar.qualitygate.timeout=1000
+    - *test_script
+    - dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN
+  after_script:
+    - dotnet build-server shutdown
+  resource_group: Sonar
+
+unit test:
+  stage: pre deploy
+  tags:
+    - windows
+  dependencies: []
+  only:
+    - /^unittest\/.*/
+  except:
+    variables:
+      - $CI_PIPELINE_SOURCE == "schedule"
+  variables:
+    GIT_STRATEGY: clone
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    BUILD_CONFIGURATION: "Debug"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  before_script:
+    - dotnet build-server shutdown
+  script:
+    - $GitVersion_FullSemVer = "1.0.0"
+    - dotnet sonarscanner begin `
+        /k:$CI_PROJECT_NAME `
+        /d:sonar.host.url=$SONAR_HOST_URL `
+        /d:sonar.login=$SONAR_TOKEN `
+        /d:sonar.cs.opencover.reportsPaths="**\TestResults\coverage.opencover*.xml" `
+        /d:sonar.sourceEncoding=UTF-8 `
+        /d:sonar.exclusions=**/Builder.cs,**/Dto/*,**/EmailCannotBeEmptyPolicy.cs,**/PrimaryEmailIsUniqiePolicy.cs`
+        /d:sonar.qualitygate.wait=true `
+        /d:sonar.qualitygate.timeout=1000
+    - *test_script
+    - dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN
+  after_script:
+    - dotnet build-server shutdown
+  resource_group: Sonar
+unit test:
+  stage: pre deploy
+  tags:
+    - windows
+  dependencies: []
+  only:
+    - /^unittest\/.*/
+  except:
+    variables:
+      - $CI_PIPELINE_SOURCE == "schedule"
+  variables:
+    GIT_STRATEGY: clone
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    BUILD_CONFIGURATION: "Debug"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  before_script:
+    - dotnet build-server shutdown
+  script:
+    - $GitVersion_FullSemVer = "1.0.0"
+    - dotnet sonarscanner begin `
+        /k:$CI_PROJECT_NAME `
+        /d:sonar.host.url=$SONAR_HOST_URL `
+        /d:sonar.login=$SONAR_TOKEN `
+        /d:sonar.cs.opencover.reportsPaths="**\TestResults\coverage.opencover*.xml" `
+        /d:sonar.sourceEncoding=UTF-8 `
+        /d:sonar.exclusions=**/Builder.cs,**/Dto/*,**/EmailCannotBeEmptyPolicy.cs,**/PrimaryEmailIsUniqiePolicy.cs`
+        /d:sonar.qualitygate.wait=true `
+        /d:sonar.qualitygate.timeout=1000
+    - *test_script
+    - dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN
+  after_script:
+    - dotnet build-server shutdown
+  resource_group: Sonar
